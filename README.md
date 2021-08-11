@@ -7,5 +7,11 @@
 The goal of reticulate_docker_reprex is to ...
 
 a) see if I can simplify it down enough
-b) say thanks to Tan for maybe looking at it.
+
+b) say thanks to Tan for maybe looking at it
+
+
+#### Problem
+
+Once the docker image builds, the shiny app cannot find python
 
