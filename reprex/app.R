@@ -2,6 +2,7 @@ library(shiny)
 library(reticulate)
 library(tidyverse)
 
+use_condaenv(conda = "auto")
 
 get_translation <- function(token, part_of_speech, language = "jpn"){
     # get the first two lemmas of a given language
@@ -37,18 +38,17 @@ ui <- fluidPage(
                             "French" = "fra"
                             )
             ),
-            selectInput("word",
-                        "select word to translate",
-                        choices = c(
-                            "dog",
-                            "cat",
-                            "mouse"
-                        ))
+            textInput("word",
+                      "write one noun",
+                      width = "300px",
+                      value = "apple"
+                      )
         ),
         
         # Show a plot of the generated distribution
         mainPanel(
-            textOutput("translation")
+            textOutput("text"),
+            textOutput("translation"),
         )
     )
 )
@@ -60,6 +60,10 @@ server <- function(input, output) {
         
         get_translation(token = input$word, part_of_speech = "n", language = input$language)
 
+    })
+    
+    output$text <- renderText({
+        input$word
     })
 }
 
