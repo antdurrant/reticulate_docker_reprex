@@ -2,7 +2,7 @@ library(shiny)
 library(reticulate)
 library(tidyverse)
 
-use_condaenv(conda = "auto")
+use_condaenv(conda = "/opt/conda/bin/conda")
 
 get_translation <- function(token, part_of_speech, language = "jpn"){
     # get the first two lemmas of a given language
