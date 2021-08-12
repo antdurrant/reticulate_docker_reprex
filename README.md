@@ -40,7 +40,10 @@ with `use_condaenv()` in app.R:
 `
 > Warning: Error in : Python shared library not found, Python bindings not loaded.
 `
+
 AND running from the command line results in errors
+
+
 ```
  - cannot find nltk, use "ntlk.download('wordnet')"
  - looked in places X,Y,Z
