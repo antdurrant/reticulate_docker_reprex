@@ -13,10 +13,12 @@ ENV PATH /opt/conda/bin:$PATH
 # install nltk & download multilingual wordnet
 RUN /opt/conda/bin/conda install nltk
 
+RUN [ "python", "-c", "import nltk; nltk.download('wordnet')" ]
+RUN [ "python", "-c", "import nltk; nltk.download('wordnet_ic')" ]
 RUN [ "python", "-c", "import nltk; nltk.download('omw')" ]
 
 # let R know the right version of python to use
-ENV RETICULATE_PYTHON "/opt/conda/bin/python3.7"
+ENV RETICULATE_PYTHON "/opt/conda/bin/python"
   
   # copy the setup script, run it, then delete it
 COPY src/setup.R /

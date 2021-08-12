@@ -2,22 +2,19 @@ library(shiny)
 library(reticulate)
 library(tidyverse)
 
-use_condaenv(conda = "/opt/conda/bin/conda")
+use_condaenv("opt/conda")
 
-get_translation <- function(token, part_of_speech, language = "jpn"){
-    # get the first two lemmas of a given language
+get_translation <- function(token, part_of_speech, language){
     # for every synset that contains the token and matches the part_of_speech
-    synsets <- reticulate::import("nltk", delay_load = TRUE)$wordnet$wordnet$synsets
+    synsets <- reticulate::import("nltk", delay_load = FALSE)$wordnet$wordnet$synsets
     
         purrr::map(
             1:length(synsets(token, pos = part_of_speech)) ,
             ~synsets(token, pos = part_of_speech)[[.x]]$lemma_names(lang = language)[1]
         ) %>%
             # lose anything that did not return a value
-            # lose all results with capitals (they are probably unwanted proper nouns)
             purrr::discard(is.null) %>%
             unlist() %>%
-            utils::head(2) %>%
             stringr::str_flatten(collapse = " || ") 
         }
 
@@ -25,7 +22,7 @@ get_translation <- function(token, part_of_speech, language = "jpn"){
 ui <- fluidPage(
     
     # Application title
-    titlePanel("Can I reprex?"),
+    titlePanel("Reprex?"),
     
     # Sidebar with a slider input for number of bins 
     sidebarLayout(
