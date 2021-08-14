@@ -2,7 +2,7 @@ library(shiny)
 library(reticulate)
 library(tidyverse)
 
-# use_condaenv(conda = "opt/conda")
+use_condaenv()
 
 get_translation <- function(token, part_of_speech, language){
     # for every synset that contains the token and matches the part_of_speech
