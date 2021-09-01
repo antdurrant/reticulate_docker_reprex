@@ -1,19 +1,6 @@
 FROM rocker/shiny-verse:latest
 
-
-# install Python 3.7 (Miniconda) and set path variable
-# RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.2-Linux-x86_64.sh -O ~/miniconda.sh && \
-#     /bin/bash ~/miniconda.sh -b -p /opt/conda && \
-#     rm ~/miniconda.sh && \
-#     /opt/conda/bin/conda clean -tipsy && \
-#     ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
-#     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
-#     echo "conda activate base" >> ~/.bashrc
-# ENV PATH /opt/conda/bin:$PATH
-
-
-
-# from miniconda
+# install miniconda & add to path
 RUN apt-get -qq update && apt-get -qq -y install curl bzip2 \
     && curl -sSL https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -o /tmp/miniconda.sh \
     && bash /tmp/miniconda.sh -bfp /usr/local \
@@ -29,21 +16,18 @@ RUN apt-get -qq update && apt-get -qq -y install curl bzip2 \
 ENV PATH /opt/conda/bin:$PATH
 
 # install nltk & download multilingual wordnet
-# RUN conda install -c conda-forge nltk_data
 RUN conda install nltk 
 
 RUN python -m nltk.downloader -d /usr/lib/nltk_data  wordnet wordnet_ic omw
 
 ENV NLTK_DATA /usr/lib/nltk_data
 
-# let R know the right version of python to use
-# ENV RETICULATE_PYTHON "/opt/conda/bin/python"
-#   
-#   copy the setup script, run it, then delete it
+#  copy the setup script, run it, then delete it
 COPY src/setup.R /
+
 RUN Rscript setup.R && rm setup.R
-#   
+   
 COPY reprex/with_condaenv_auto /srv/shiny-server/
-# 
+ 
 EXPOSE 3838
 
