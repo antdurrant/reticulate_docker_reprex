@@ -29,7 +29,12 @@ RUN apt-get -qq update && apt-get -qq -y install curl bzip2 \
 ENV PATH /opt/conda/bin:$PATH
 
 # install nltk & download multilingual wordnet
-RUN conda install -c conda-forge nltk_data
+# RUN conda install -c conda-forge nltk_data
+RUN conda install nltk 
+
+RUN python -m nltk.downloader -d /usr/lib/nltk_data  wordnet wordnet_ic omw
+
+ENV NLTK_DATA /usr/lib/nltk_data
 
 # let R know the right version of python to use
 # ENV RETICULATE_PYTHON "/opt/conda/bin/python"
